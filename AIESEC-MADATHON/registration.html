@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>REGISTRATION	| MADATHON</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script src="http://www.parsecdn.com/js/parse-1.3.3.min.js"></script>
+<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+</head>
+<body background="images/bg.jpg" id="body">
+
+
+
+<a href="index.html"> <div class="logo" ><img src="images/logo.jpg" style="margin: 0 0 0 15%;"></div> </a>
+
+<div class="mad" id="header">
+	
+	<a href="index.html"><div class="menu">HOME</div></a>
+	<a href="about.html"><div class="menu" >ABOUT</div></a>
+	<a href="index.html"><img src="images/mlogo.jpg" style="width:10%" style="" align="center" /></a>
+	<a href="registration.html"><div class="menu" style="margin: 0 0 0 0; background-color: #00e0e3;color: white;font-weight: bold">REGISTRATION</div></a>
+	<a href="https://madathonchennai.wordpress.com" target="_blank"><div class="menu">BLOG</div></a>
+</div>
+
+
+		
+	<div class="center" id="center">
+		<div class="centerhalf" >
+		
+		<form style="margin: 0 0 0 75%;">
+		    
+			<label style="color: white">Name</label><br><br>
+			<label style="color: white">Age</label><br><br>
+	        <label style="color: white">Gender</label><br><br>
+			<label style="color: white">Contact no</label><br><br>
+			<label style="color: white">Mail-ID</label><br><br>
+			
+		</form>
+		<div class="menu" style=" padding: 0.5em 1em; margin: 0 0 0 85%" onclick="validate()">REGISTER</div>
+		
+		</div>
+		
+		<div class="centerhalf">
+			<br>
+		
+		<form style="margin: 0em 0 0 0; color: white">
+		<br>
+			:<input type="text" id="name" onkeypress="enter()" style="margin: auto 2%"><br><br>
+			:<input type="text" id="age" onkeypress="enter()" style="margin: auto 2%"><br><br>
+			:<select id="gender" onkeypress="enter()" style="margin: auto 2%; width: 28.5%">
+					<option value=""></option>
+					<option value="MALE">MALE</option>
+					<option value="FEMALE">FEMALE</option>
+				</select>
+			<br><br>
+			:<input type="text" id="contact" onkeypress="enter()" style="margin: auto 2%"><br><br>
+			:<input type="text" id="email" onkeypress="enter()" style="margin: auto 2%"><br><br>
+			
+		</form>
+		<div class="menu" style=" padding: 0.5em 1em; margin: 0 0 0 15%" onclick="reload()">RESET</div>
+		</div>
+		
+		
+
+		
+	</div>	
+	<div id="loading"><img src="images/loading.gif" /></div>
+	
+<div class="footer" id="footer">
+	
+	<a href="https://www.facebook.com/aiesec.chennai" target="_blank"><img src="images/fb.png"></a>
+	<a href="https://www.storiesofyoungmadras.wordpress.com" target="_blank"><img src="images/wp.png"></a>
+
+	<div align="right">
+		<i>Powered by</i>|	<b>THINK DIGITAL</b>
+	</div>
+
+
+</div>
+
+</body>
+</html>
+
+<script>
+
+Parse.initialize("FmI1am1pSr7RfH9x1IKqquNUCbh2iMo4MJAqh2AN", "FNHQJbu3JOHoExKvs0WwhdVEXb5hm9cPxnBlPYJb"); // MADATHON
+
+var e;
+function enter(){
+	
+    if (event.keyCode==13){
+		console.log("Haii");
+		validate();
+	}
+};
+
+function reload(){
+	window.location=    "registration.html";
+}
+	
+function validate(){
+	
+	var Name	= document.getElementById("name").value;
+	var Age		= document.getElementById("age").value;
+	var Gender	= document.getElementById("gender").value;
+	var Contact	= document.getElementById("contact").value;
+	var Email	= document.getElementById("email").value;
+	var atpos = Email.indexOf("@");
+	var dotpos = Email.lastIndexOf(".");
+   
+	
+	if(Name.length<4)
+		alert("Please Enter a valid User Name");
+		else if(Age<=10)
+			alert("Please Enter a Valid Age");
+				else if(Gender==="")
+					alert("Please Select your Gender");
+						else if(isNaN(Contact))
+							alert('ENter a valid Phone Number');
+								else if(Contact.length!=10)
+									alert('ENter a valid Phone Number');
+										else if (atpos < 1 || ( dotpos - atpos < 2 )) 
+											alert("Please enter correct email ID")
+												else{
+													alert("STORING DATA");
+													
+													storedata();
+													
+									}
+		
+					
+}
+function payment(){
+	window.location= "https://www.explara.com/e/madathon";
+}
+function storedata(){
+	
+	document.getElementById('loading').style.display = 'block';
+	document.getElementById('center').style.cursor = 'wait';
+	document.getElementById('center').style.opacity = '0.2';
+	document.getElementById('header').style.cursor = 'wait';
+	document.getElementById('header').style.opacity = '0.2';
+	document.getElementById('footer').style.cursor = 'wait';
+	document.getElementById('footer').style.opacity = '0.2';
+	var Name	= document.getElementById("name").value;
+	var Age		= document.getElementById("age").value;
+	var Gender	= document.getElementById("gender").value;
+	var Contact	= document.getElementById("contact").value;
+	var Email	= document.getElementById("email").value;
+	var STUDENT = Parse.Object.extend("Registrations");
+	var student = new STUDENT();
+	student.set("USERNAME", Name);
+	student.set("AGE", parseInt(Age));
+	student.set("GENDER", Gender);
+	student.set("CONTACT", Contact);
+	student.set("EMAIL", Email);
+
+	student.save(null, {
+		success: function(student) {
+		
+		alert('Please Proceed with your payments!');
+		payment();
+		},
+	error: function(student, error) {
+		alert('Failed to create new object, with error code: ' + error.message);
+		alert('Please register again');
+		window.location= "registration.html";
+		}
+	});
+}
+
+</script>
+

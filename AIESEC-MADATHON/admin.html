@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>ADMIN	| MADATHON</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.parse.com/downloads/javascript/parse-1.3.2.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.2.min.js"></script>
+        
+</head>
+<body background="images/bg.jpg" id="body" onload="studentRetrieval()">
+
+<div style="margin: 0 0 0 40%; display: inline-block"><h2 >ADMIN PANEL</h2></div> 
+<a href="#news"><div style="margin: 0 0 0 30%; display: inline-block; padding: 0em 0.5em" class="menu" ><b><h4> UPDATE </h4></b></div></a>
+
+<div id="loading"><img src="images/loading.gif" /></div>
+
+<div id="fix" onclick="home()" style="top: 10em">HOME</div>
+<div id="center">
+<div class="division1" style="">
+		<table id="studTable" align="center" border="1" class="tablesorter" style="width: 100%; background-color: white">
+		
+		</table>
+
+
+</div>
+<!--
+<div class="division2" style="">
+
+	<div id="question">	</div>
+
+
+</div>
+-->
+
+<div id="news">
+	<div style="background-color: #00e0e3;"><h2>LATEST UPDATE</h2></div>
+	<div style=" margin: 0 0 0 23%"><label>ENTER YOUR UPDATE HERE:</label></div>
+	<textarea type="text" id="update" rows="10" style="border: 2px Solid #00e0e3; width: 50%; margin: 0 0 0 23%"> </textarea>
+	<div class="menu" onclick="news()" style="display: inline-block;">POST</div>
+</div>
+
+
+</div>
+<!--<div class="header" >
+	<a href="index.html"><div class="menu">HOME</div></a>
+	<a href="about.html"><div class="menu" style="background-color: #00c4c6;color: white; font-weight: bold">ABOUT</div></a>
+	<a href="index.html"><img src="images/logo1.jpg"></a>
+	<a href="registration.html"><div class="menu" style="margin: 0 0 0 40%;">REGISTRATION</div></a>
+	<a href="faq.html"><div class="menu">FAQ</div></a>
+</div>-->
+			
+
+<div class="footer">
+
+
+	<div align="right">
+		<i>Powered by</i>|	<b>THINK DIGITAL</b>
+	</div>
+
+
+</div>
+</body>
+<script>
+Parse.initialize("FmI1am1pSr7RfH9x1IKqquNUCbh2iMo4MJAqh2AN", "FNHQJbu3JOHoExKvs0WwhdVEXb5hm9cPxnBlPYJb"); // MADATHON
+
+function home(){
+	window.location="index.html";
+}
+
+
+function studentRetrieval(){
+	document.getElementById('loading').style.top = '28%';
+	document.getElementById('loading').style.display = 'block';
+	document.getElementById('body').style.cursor = 'wait';
+	document.getElementById('center').style.cursor = 'wait';
+	document.getElementById('center').style.opacity = '0.2';
+	console.log("STARTED");
+    $('#studTable').empty();
+    $('#studTable').append(
+        "<thead><tr>"+
+        "<th> NO </th>"+
+        "<th> NAME </th>"+
+        "<th> AGE </th>"+
+        "<th> GENDER </th>"+
+        "<th> EMAIL </th>"+
+        "<th> CONTACT </th>"+
+        "</tr></thead><tbody>");
+
+   
+
+    var UserClass = Parse.Object.extend("User");
+    var query = new Parse.Query(UserClass);
+    
+    query.first({
+        success: function(obj) {
+            schoolObject    =   obj;
+            var stuClass=   Parse.Object.extend("Registrations");
+            var stQuery =   new Parse.Query(stuClass);
+            stQuery.limit(1000);
+            stQuery.find({
+                success:function(names) {
+					
+                    studentsList =   names;
+					console.log(studentsList);
+                    if (names.length) {
+                        populateTable(names);
+                    }
+                }, error:function(stobj, sterr) {
+                    console.log('Error fetching student' + sterr.message);
+                }
+            });
+        }, error:function(sobj, serr) {
+        }
+    });
+};
+
+
+		
+		
+function populateTable(message) {
+	
+    studentsList.forEach(function(message, i) {
+		console.log(studentsList);
+        var index       =   i + 1;
+		var name		=	message.get('USERNAME');
+		var age			=	message.get('AGE');
+		var gender		=	message.get('GENDER');
+		var email		=	message.get('EMAIL');
+		var contact		=	message.get('CONTACT');
+		
+        $('#studTable').append(
+            "<tr id='studRow" + (i+1) + "'>"+
+            "<td> " + (i+1) + " </td>"+
+            "<td> " + name + " </td>"+
+            "<td> " + message.get('AGE') + " </td>"+
+            "<td> " + message.get('GENDER') + " </td>"+
+            "<td> " + message.get('EMAIL') + " </td>"+
+            "<td> " + message.get('CONTACT') + " </td>"+
+            "</tr>");
+		
+        
+
+    });
+
+    $('#studTable').append('</tbody>');
+	document.getElementById('loading').style.display = 'none';
+	document.getElementById('body').style.cursor = 'default';
+	document.getElementById('center').style.cursor = 'default';
+	document.getElementById('center').style.opacity = '1';
+	document.getElementById('header').style.cursor = 'default';
+	document.getElementById('header').style.opacity = '1';
+	document.getElementById('footer').style.cursor = 'default';
+	document.getElementById('footer').style.opacity = '1';
+   
+
+}
+
+/*
+function retrieve(){
+	
+	var faq=   Parse.Object.extend("FAQ");
+	var Query =   new Parse.Query(faq);
+	Query.find({
+                success:function(message) {
+					console.log("RETRIEVED");
+                    if (message.length) {
+						console.log(message);
+						appendMessage(message);
+                    }
+                }, error:function(stobj, sterr) {
+                    console.log('Error fetching student' + sterr.message);
+                }
+            });
+	
+}
+
+function appendMessage(questionList){
+	var FAQ=   Parse.Object.extend("FAQ");
+	var faq = new FAQ();
+	var index=0;
+	questionList.forEach(function(message) {
+	index++;
+	console.log("appending Messages");
+	var que           =   document.createElement('h5');
+	que.htmlFor       =   message.id;
+	$('#question').append("<h4 id='ques'>" + index + ') ' + message.get('QUESTION') + '  (' + message.get('USERNAME') + ')' + '  (' + message.get('EMAIL') + ')' + "</h4>");
+	$('#question').append("<input style='display: none' type='text' id='ques' value=" +  message.get('QUESTION') + ">" + "</input>");
+	$('#question').append("<input style='display: none' type='text' id='email' value=" +  message.get('EMAIL') + ">" + "</input>");
+	if(message.get('ANSWER')==="NOT ANSWERED"){
+		$('#question').append("<div class='menu' style='padding: 0.1em; margin: 2px' onclick='mail()' > Answer to Mail </div>");
+		$('#question').append("<div style='font-size: 13px; display: inline-block; margin: 2em' > Please copy the link to send the email</div>");
+		}
+	else {
+		$('#question').append("<p style='margin-left: 2em;'>" + message.get('ANSWER') + "</p>");
+	}
+	});
+	
+}
+*/
+function mail(){
+	
+	window.open('https://mail.google.com/mail/?view=cm&fs=1&to= &su=REPLY_FOR_MADATHON&body=This is a reply for your following query on MADATHON&bcc=aiesec.shubhamjha@gmail.com', '_blank')
+}
+
+function news(){
+	var update = document.getElementById('update').value;
+	var NEWS	=   Parse.Object.extend("NEWS");
+	var news	=	new NEWS();
+	if(update!=" "){
+	news.set("UPDATE", update);
+	news.save(null, {
+		success: function(message) {
+		alert('You have been successfully Updated!');
+		},
+	error: function(message, error) {
+		alert('Failed to post the update: ' + error.message);
+		}
+	});
+	}
+}
+
+
+</script>
+

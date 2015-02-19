@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>HOME | MADATHON</title>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.2.min.js"></script>
+<script type="text/javascript" src="https://www.parse.com/downloads/javascript/parse-1.3.2.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+</head>
+<body background="images/bg.jpg" onload="update()">
+<a href="index.html"> <div class="logo" ><img src="images/logo.jpg" style="margin: 0 0 0 15%;"></div> </a>
+<div class="mad">
+	
+	<a href="index.html"><div class="menu" style="margin: 0 0 0 0; background-color: #00e0e3;color: white;font-weight: bold">HOME</div></a>
+	<a href="about.html"><div class="menu" >ABOUT</div></a>
+	<a href="index.html"><img src="images/mlogo.jpg" style="width:10%" style="" align="center" /></a>
+	<a href="registration.html"><div class="menu" style="margin: 0 0 0 0;">REGISTRATION</div></a>
+	<a href="https://madathonchennai.wordpress.com" target="_blank"><div class="menu">BLOG</div></a>
+</div>	
+
+		<h4 id="fix" style="color: white " onclick="">ADMIN LOGIN
+			
+		<div id="loginForm" style="display: block; width: 100% ">
+                <h5>Password:<input type="password" id="passwordField" style="width:48%" onkeypress="enter()"/>
+                <p id="pageLoginButton" class="menu" onclick="login()" style="padding: 0.1em 0.2em;"> LOGIN </p> <label>ADMIN</label> </h5>
+				
+            </div>
+			
+		</h4>
+
+<!--
+<div class="position">
+	<div class="box1">box1
+	
+	
+	</div>
+	
+
+</div>
+<div class="position">
+	<div class="box2">box2
+	
+	
+	
+	</div>
+	
+
+</div>
+-->	
+		<div class="center" style="color: white">
+	<div class="centertop">
+		<h3>"There can be no keener revelation of a society's soul than the way in which it treats its children."<br><span>_ Nelson Mandela</span></h3>
+		
+		<div class="image" style="width: 17%; margin: 0 34%"> <img src="images/1.jpg" style="width: 100%" /> </div>
+	</div>
+	<div class="news" >
+		<h2 ><u>LATEST UPDATES</u></h2>
+		
+		<ol id="updates"></ol>
+		
+	
+	</div>
+	<div style="margin: 0 24%;">
+		<p>&nbsp&nbsp&nbsp&nbsp For over 30 years, AIESEC has been trying new methods and ideas
+		to bring healthy change in the lives of people from various sections of the society in Chennai.
+		We have realized that it all comes down to one thought, to transform as many lives as possible.</p>
+		
+		<p>&nbsp&nbsp&nbsp&nbsp Project Footprints is a result of that thought, a thought to change 
+		the lives of the children who are not given the opportunity to showcase their talents. 
+		<br>For details: <i><a href="https://madathonchennai.wordpress.com/project-foot-prints-2014/" target="_blank" color="black">Click here</a></i></p>
+		
+		<p>&nbsp&nbsp&nbsp&nbsp As the world's largest youth-run organization, the initiatives that 
+		AIESEC takes never fail to make an impact. AIESEC India, too, gives a platform that one would 
+		only be proud to be a part of. This statement is exemplified by Project Footprints, an initiative 
+		taken by AIESEC in Chennai. Spanning a period of five weeks, this initiative aims at giving a
+		chance to various socially and economically backward children for exchanging ideas and understanding
+		the many facets pertaining to child rights and child empowerment.</p>
+
+		<p>&nbsp&nbsp&nbsp&nbsp The project consists of five impact weeks wherein the core committee 
+		team along with volunteers and international interns will work with around three to four hours 
+		each day in a NGO for a week. Children from an approximate of fifteen to twenty NGOs will benefit 
+		hugely from this comprehensive program.</p>	
+	
+	</div>
+	
+	
+	
+	
+	</div>
+<div class="footer">
+	
+	<a href="https://www.facebook.com/aiesec.chennai" target="_blank"><img src="images/fb.png"></a>
+	<a href="https://www.storiesofyoungmadras.wordpress.com" target="_blank"><img src="images/wp.png"></a>
+
+	<div align="right">
+		<i>Powered by</i>|	<b>THINK DIGITAL</b>
+	</div>
+
+
+</div>
+
+
+<script>
+Parse.initialize("FmI1am1pSr7RfH9x1IKqquNUCbh2iMo4MJAqh2AN", "FNHQJbu3JOHoExKvs0WwhdVEXb5hm9cPxnBlPYJb"); // MADATHON
+function enter(){
+	
+    if (event.keyCode==13){
+		console.log("Haii");
+		login();
+	}
+};
+
+function login(){
+	var pass	=	document.getElementById('passwordField').value;
+        if ( pass === 'm2015' ) {
+            window.location="admin.html";
+        }
+		else
+			alert("Wrong Password!!");
+    }
+	
+function update(){
+	var news=   Parse.Object.extend("NEWS"); // Retrieval
+	var Query =   new Parse.Query(news);
+	Query.find({
+                success:function(news) {
+					console.log("RETRIEVED");
+                    if (news.length) {
+						console.log(news);
+						appendMessage(news);
+                    }
+                }, error:function(stobj, sterr) {
+                    console.log('Error fetching student' + sterr.news);
+                }
+            });
+}
+function appendMessage(news){
+
+	var NEWS=   Parse.Object.extend("NEWS");
+	var index=0;
+	news.forEach(function(news) {
+	index++;
+	console.log("appending Messages");
+	
+	$('#updates').append("<li>" + news.get('UPDATE') + "</li>");
+	console.log("APPENDED");
+	});
+}
+</script>
